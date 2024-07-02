@@ -1,50 +1,61 @@
-import { useEffect } from "react";  
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsAsync } from "../../store/product";
 import { Link } from "react-router-dom";
 
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+
 const Dashboard = () => {
-    const dispatch = useDispatch();
-    const products = useSelector(state => state.products.products);
-    const status = useSelector(state => state.products.status);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
+  const status = useSelector((state) => state.products.status);
 
-    useEffect(() => {
-        dispatch(fetchProductsAsync());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
-    return (
-        <>
-            {status === 'pending' ? (
-                <div>Loading...</div>
-            ) : (
-                <div>
-                    <h1>Fake Store</h1>
+  return (
+    <>
+      {status === "pending" ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          <h1>Fake Store</h1>
+          <div>
+            {products.map((product) => {
+              return (
+                <>
                     <div>
-                        <table style={{ width: '800px', margin: '0 auto' }}>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: '300px', textAlign: 'center' }}>Product Name</th>
-                                    <th style={{ width: '200px', textAlign: 'center' }}>Price</th>
-                                    <th style={{ width: '100px', textAlign: 'center' }}>Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {products.map(product => (
-                                    <tr key={product.id}>
-                                        <td>{product.title}</td>
-                                        <td>{product.price}</td>
-                                        <td><img src={product.image} alt={product.title} style={{ width: '100px' }} /></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table> 
+                        <Card sx={{ maxWidth: 400 }}>
+                            <CardMedia sx={{ height: 500 }} image={product.image} />
+                            <CardContent>
+                            <Typography gutterBottom variant="h5" component="div">
+                                {product.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {product.description}
+                            </Typography>
+                            </CardContent>
+
+                            <CardActions>
+                            <h3>Price : {product.price}</h3>
+                            </CardActions>
+                        </Card>
                     </div>
-                </div>
-                
-            )}
-            <Link to="/">back to home</Link>
-        </>
-    );
+                </>
+                    
+              );
+            })}
+          </div>
+        </div>
+      )}
+      <Link to="/">back to home</Link>
+    </>
+  );
 };
 
 export default Dashboard;

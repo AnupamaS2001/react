@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+const Url=import.meta.env.VITE_URL
+
 
 const instance=axios.create({
-    baseURL:'https://fakestoreapi.com'
+    baseURL:Url
 })
 export const fetchProducts=()=>{
     return instance.get('/products')
