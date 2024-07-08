@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import productsReducer, { fetchProductsAsync } from './product'
+import productsReducer from './product'
+import myStoreReducer from './myStoreGet'
 
 export const store = configureStore({
   reducer: {
-    products:productsReducer
+    products:productsReducer,
+    myStoreProducts : myStoreReducer,
+    
    
   },
 });
 
-store.dispatch(fetchProductsAsync());
